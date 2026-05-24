@@ -74,30 +74,3 @@ export const executionServices = [
     description: 'Desenvolvimento de infraestrutura elétrica robusta e eficiente.',
   },
 ]
-
-export const portfolioItems = [
-  {
-    id: 1,
-    category: 'Projetos Industriais',
-    description: 'Projetos elétricos para indústrias de diversos segmentos',
-    count: '15+',
-  },
-  {
-    id: 2,
-    category: 'Laudos e Inspeções',
-    description: 'Laudos técnicos e inspeções elétricas realizadas',
-    count: '30+',
-  },
-  {
-    id: 3,
-    category: 'Adequações Elétricas',
-    description: 'Adequações e melhorias em sistemas existentes',
-    count: '20+',
-  },
-  {
-    id: 4,
-    category: 'Montagem de Painéis',
-    description: 'Painéis elétricos projetados e montados',
-    count: '25+',
-  },
-]
