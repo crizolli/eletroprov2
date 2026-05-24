@@ -38,11 +38,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio" className="hover:text-primary-400 transition-colors">
-                  Portfólio
-                </Link>
-              </li>
-              <li>
                 <Link href="/contato" className="hover:text-primary-400 transition-colors">
                   Contato
                 </Link>
