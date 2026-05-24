@@ -24,10 +24,10 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center">
             <Image
-              src="/ELETROProLogoV2.png"
+              src="/novoLogo.png"
               alt="EletroPro Logo"
-              width={320}
-              height={120}
+              width={1212}
+              height={382}
               className="h-14 w-auto object-contain sm:h-16 md:h-[4.5rem]"
               priority
             />

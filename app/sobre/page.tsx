@@ -102,7 +102,7 @@ export default function About() {
               </div>
               <h3 className="mb-3 text-xl font-semibold leading-snug text-gray-900">Segurança</h3>
               <p className="text-base leading-7 text-gray-600">
-                Prioridade absoluta na segurança de nossas soluções e na conformidade com NR10
+                Prioridade absoluta na segurança de nossas soluções e na conformidade com NBR5410
               </p>
             </div>
 

@@ -12,7 +12,7 @@ export const company = {
     profession: 'Engenheiro Eletricista',
     credentials: [
       'Pós-graduação em Instalações Elétricas de Baixa Tensão',
-      'Especialização em NR10',
+      'Especialização em NBR5410',
       'MBA em Gestão de Projetos',
     ],
   },

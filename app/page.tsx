@@ -99,7 +99,7 @@ export default function Home() {
               </div>
               <h3 className="mb-3 text-xl font-semibold leading-snug text-gray-900">Experiência Técnica</h3>
               <p className="text-base leading-7 text-gray-600">
-                Equipe altamente qualificada com especialização em baixa tensão e NR10
+                Equipe altamente qualificada com especialização em baixa tensão e NBR5410
               </p>
             </div>
 
