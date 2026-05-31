@@ -2,11 +2,15 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ServiceCard from '@/components/ServiceCard'
-import { engineeringServices, executionServices } from '@/lib/config'
+import StructuredData from '@/components/StructuredData'
+import { engineeringServices, executionServices, siteUrl } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: 'Serviços | EletroPro - Engenharia Elétrica',
-  description: 'Serviços de engenharia elétrica: projetos, laudos de SPDA/PPCI, análise de curto-circuito, coordenação de proteções e execução de instalações.',
+  title: 'Serviços de Engenharia Elétrica',
+  description: 'Serviços de engenharia elétrica: projetos elétricos de baixa tensão, laudos técnicos, inspeções, comissionamento e dimensionamento de cargas e painéis.',
+  alternates: {
+    canonical: '/servicos',
+  },
 }
 
 const pageTitleClass = 'text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl'
@@ -14,9 +18,28 @@ const pageIntroClass = 'mx-auto max-w-3xl text-lg leading-8 text-gray-600 md:tex
 const sectionTitleClass = 'mb-4 text-3xl font-bold leading-tight text-gray-900 md:text-4xl'
 
 export default function Services() {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Serviços de Engenharia Elétrica EletroPro',
+    url: `${siteUrl}/servicos`,
+    itemListElement: [...engineeringServices, ...executionServices].map((service, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Service',
+        name: service.title,
+        description: service.description,
+        provider: {
+          '@id': `${siteUrl}/#empresa`,
+        },
+      },
+    })),
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
+      <StructuredData data={structuredData} />
       <Header />
 
       {/* Hero Section */}
