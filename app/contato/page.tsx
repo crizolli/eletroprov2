@@ -4,8 +4,11 @@ import Footer from '@/components/Footer'
 import { company, companyPhoneHref } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: 'Contato | EletroPro - Engenharia Elétrica',
+  title: 'Contato',
   description: 'Entre em contato com a EletroPro. Solicite orçamentos para projetos elétricos, laudos técnicos e consultoria especializada em baixa tensão.',
+  alternates: {
+    canonical: '/contato',
+  },
 }
 
 const pageTitleClass = 'text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl'
