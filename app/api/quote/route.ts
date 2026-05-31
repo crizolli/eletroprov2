@@ -4,12 +4,28 @@ import { Resend } from 'resend'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const VALID_INSTALLATION_TYPES = ['Industrial', 'Comercial', 'Outro']
 
+type ResendError = {
+  message?: string
+  name?: string
+  statusCode?: number
+}
+
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+}
+
+function getResendErrorMessage(error: unknown): string {
+  if (!error || typeof error !== 'object') {
+    return 'Falha ao enviar email'
+  }
+
+  const resendError = error as ResendError
+
+  return resendError.message || resendError.name || 'Falha ao enviar email'
 }
 
 function getEmailConfig() {
@@ -87,8 +103,9 @@ export async function POST(request: NextRequest) {
     })
 
     if (error) {
+      const resendErrorMessage = getResendErrorMessage(error)
       console.error('Resend error:', error)
-      return NextResponse.json({ error: 'Falha ao enviar email' }, { status: 502 })
+      return NextResponse.json({ error: resendErrorMessage }, { status: 502 })
     }
 
     return NextResponse.json({

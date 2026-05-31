@@ -12,6 +12,10 @@ type FormData = {
   description: string
 }
 
+type QuoteResponse = {
+  error?: string
+}
+
 const inputClass =
   'w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-primary-600 focus:outline-none'
 const labelClass = 'mb-2 block text-sm font-semibold text-gray-900'
@@ -66,8 +70,9 @@ export default function QuoteForm() {
         setFormData({ name: '', email: '', phone: '', service: '', installationType: '', description: '' })
         resetTimerRef.current = setTimeout(() => setStatus('idle'), 6000)
       } else {
+        const data = (await response.json().catch(() => null)) as QuoteResponse | null
         setStatus('error')
-        setErrorMessage('Erro ao enviar. Tente novamente.')
+        setErrorMessage(data?.error || 'Erro ao enviar. Tente novamente.')
       }
     } catch (error) {
       setStatus('error')
