@@ -4,14 +4,28 @@ import { Resend } from 'resend'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const VALID_INSTALLATION_TYPES = ['Industrial', 'Comercial', 'Outro']
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
-
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+}
+
+function getEmailConfig() {
+  const apiKey = process.env.RESEND_API_KEY
+  const to = process.env.CONTACT_EMAIL
+  const from = process.env.RESEND_FROM_EMAIL || 'EletroPro <onboarding@resend.dev>'
+
+  if (!apiKey || !to) {
+    return null
+  }
+
+  return {
+    resend: new Resend(apiKey),
+    from,
+    to,
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -43,28 +57,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Descrição inválida (máx. 2000 caracteres)' }, { status: 400 })
     }
 
-    if (!resend) {
-      console.error('RESEND_API_KEY não configurada')
-      return NextResponse.json({ error: 'Serviço de email não configurado' }, { status: 503 })
+    const emailConfig = getEmailConfig()
+
+    if (!emailConfig) {
+      console.error('Configuração de email incompleta: RESEND_API_KEY e/ou CONTACT_EMAIL ausentes')
+      return NextResponse.json(
+        { error: 'Serviço de email não configurado' },
+        { status: 503 }
+      )
     }
 
-    const destEmail = process.env.CONTACT_EMAIL
-    if (!destEmail) {
-      console.error('CONTACT_EMAIL não configurada')
-      return NextResponse.json({ error: 'Serviço de email não configurado' }, { status: 503 })
-    }
-
-    const { error } = await resend.emails.send({
-      from: 'EletroPro <onboarding@resend.dev>',
-      to: destEmail,
+    const { error } = await emailConfig.resend.emails.send({
+      from: emailConfig.from,
+      to: emailConfig.to,
       replyTo: email,
-      subject: `Solicitação de Orçamento — ${service}`,
+      subject: `Solicitação de Orçamento - ${service}`,
       html: `
         <h2>Nova Solicitação de Orçamento</h2>
         <table cellpadding="8" style="border-collapse:collapse;width:100%;max-width:600px">
           <tr><td><strong>Nome</strong></td><td>${escapeHtml(name)}</td></tr>
           <tr><td><strong>E-mail</strong></td><td>${escapeHtml(email)}</td></tr>
-          <tr><td><strong>Telefone</strong></td><td>${escapeHtml(phone || '—')}</td></tr>
+          <tr><td><strong>Telefone</strong></td><td>${escapeHtml(phone || '-')}</td></tr>
           <tr><td><strong>Serviço</strong></td><td>${escapeHtml(service)}</td></tr>
           <tr><td><strong>Tipo de instalação</strong></td><td>${escapeHtml(installationType)}</td></tr>
         </table>
@@ -78,11 +91,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Falha ao enviar email' }, { status: 502 })
     }
 
-    return NextResponse.json(
-      { success: true, message: 'Solicitação recebida com sucesso. Entraremos em contato em breve.' },
-      { status: 200 }
-    )
-  } catch {
+    return NextResponse.json({
+      success: true,
+      message: 'Solicitação recebida com sucesso. Entraremos em contato em breve.',
+    })
+  } catch (error) {
+    console.error('Quote API error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
