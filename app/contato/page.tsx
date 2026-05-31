@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { company } from '@/lib/config'
+import { company, companyPhoneHref } from '@/lib/config'
 
 export const metadata: Metadata = {
   title: 'Contato | EletroPro - Engenharia Elétrica',
@@ -45,7 +45,7 @@ export default function Contact() {
                 <p className="mb-4 flex-1 text-base leading-7 text-gray-600">
                   Fale diretamente com um engenheiro para agilizar seu atendimento ou agendar uma visita técnica.
                 </p>
-                <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="btn-primary mt-auto">
+                <a href={`tel:${companyPhoneHref}`} className="btn-primary mt-auto">
                   {company.phone}
                 </a>
               </div>

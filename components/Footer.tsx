@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { company } from '@/lib/config'
+import { company, companyPhoneHref } from '@/lib/config'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
 const CURRENT_YEAR = new Date().getFullYear()
@@ -61,7 +61,7 @@ export default function Footer() {
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary-400" />
                 <a
-                  href={`tel:${company.phone.replace(/\s/g, '')}`}
+                  href={`tel:${companyPhoneHref}`}
                   className="hover:text-primary-400 transition-colors"
                 >
                   {company.phone}

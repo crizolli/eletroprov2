@@ -27,6 +27,7 @@ const groups = [
 export default function ServiceSelect({ value, onChange }: Props) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const options = groups.flatMap((group) => group.options)
 
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
@@ -38,11 +39,59 @@ export default function ServiceSelect({ value, onChange }: Props) {
     return () => document.removeEventListener('mousedown', handleOutside)
   }, [])
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'Escape') {
+      setOpen(false)
+      return
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      setOpen(true)
+      window.setTimeout(() => {
+        const selectedIndex = Math.max(options.indexOf(value), 0)
+        ref.current
+          ?.querySelector<HTMLButtonElement>(`[data-option-index="${selectedIndex}"]`)
+          ?.focus()
+      }, 0)
+    }
+  }
+
+  const handleOptionKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    option: string,
+    index: number
+  ) => {
+    if (event.key === 'Escape') {
+      setOpen(false)
+      ref.current?.querySelector<HTMLButtonElement>('[aria-haspopup="listbox"]')?.focus()
+      return
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onChange(option)
+      setOpen(false)
+      return
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault()
+      const nextIndex = event.key === 'ArrowDown'
+        ? Math.min(index + 1, options.length - 1)
+        : Math.max(index - 1, 0)
+      ref.current
+        ?.querySelector<HTMLButtonElement>(`[data-option-index="${nextIndex}"]`)
+        ?.focus()
+    }
+  }
+
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
+        onKeyDown={handleKeyDown}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Selecionar serviço"
@@ -72,6 +121,8 @@ export default function ServiceSelect({ value, onChange }: Props) {
                     type="button"
                     role="option"
                     aria-selected={value === opt}
+                    data-option-index={options.indexOf(opt)}
+                    onKeyDown={(event) => handleOptionKeyDown(event, opt, options.indexOf(opt))}
                     onClick={() => {
                       onChange(opt)
                       setOpen(false)

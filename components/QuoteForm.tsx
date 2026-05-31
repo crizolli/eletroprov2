@@ -49,6 +49,11 @@ export default function QuoteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    if (resetTimerRef.current) {
+      clearTimeout(resetTimerRef.current)
+      resetTimerRef.current = null
+    }
+
     if (!formData.name || !formData.email || !formData.service || !formData.installationType || !formData.description) {
       setStatus('error')
       setErrorMessage('Por favor, preencha todos os campos obrigatórios.')
