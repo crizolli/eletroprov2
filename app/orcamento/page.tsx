@@ -4,8 +4,11 @@ import Footer from '@/components/Footer'
 import QuoteForm from '@/components/QuoteForm'
 
 export const metadata: Metadata = {
-  title: 'Solicitar Orçamento | EletroPro - Engenharia Elétrica',
+  title: 'Solicitar Orçamento',
   description: 'Solicite um orçamento personalizado para projetos elétricos, laudos técnicos, inspeções e consultoria especializada em baixa tensão.',
+  alternates: {
+    canonical: '/orcamento',
+  },
 }
 
 const pageTitleClass = 'text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl'
