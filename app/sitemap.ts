@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { siteUrl } from '@/lib/config'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://eletroproeng.com.br'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? siteUrl
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
