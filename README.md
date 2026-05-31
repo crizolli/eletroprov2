@@ -44,10 +44,11 @@ Crie o arquivo `.env.local` na raiz do projeto:
 ```
 RESEND_API_KEY=sua_api_key_aqui
 CONTACT_EMAIL=seu@email.com
+RESEND_FROM_EMAIL=EletroPro <contato@seudominio.com.br>
 NEXT_PUBLIC_SITE_URL=https://seudominio.com.br
 ```
 
-> **Nota:** O remetente `onboarding@resend.dev` funciona apenas para envio ao email do dono da conta Resend. Para enviar a qualquer destinatário em produção, verifique um domínio próprio em resend.com e atualize o campo `from:` em `app/api/quote/route.ts`.
+> **Nota:** O remetente `onboarding@resend.dev` funciona apenas para envio ao email do dono da conta Resend. Para enviar a qualquer destinatário em produção, verifique um domínio próprio em resend.com e configure `RESEND_FROM_EMAIL`.
 
 ---
 
@@ -72,6 +73,7 @@ Substitua `public/ELETROProLogoV2.png`. Atualize dimensões em `components/Heade
 3. Adicionar variáveis de ambiente no dashboard Vercel:
    - `RESEND_API_KEY`
    - `CONTACT_EMAIL`
+   - `RESEND_FROM_EMAIL`
    - `NEXT_PUBLIC_SITE_URL`
 4. Deploy automático a cada push
 
