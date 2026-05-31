@@ -5,8 +5,11 @@ import { company } from '@/lib/config'
 import { CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Sobre | EletroPro - Engenharia Elétrica',
+  title: 'Sobre a Empresa',
   description: 'Conheça a EletroPro: empresa especializada em engenharia elétrica com foco em projetos, laudos técnicos e consultoria em baixa tensão.',
+  alternates: {
+    canonical: '/sobre',
+  },
 }
 
 const pageTitleClass = 'text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl'
