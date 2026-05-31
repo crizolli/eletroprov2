@@ -19,6 +19,7 @@ export const company = {
 }
 
 export const companyPhoneHref = `+${company.phone.replace(/\D/g, '')}`
+export const siteUrl = 'https://eletroproeng.com.br'
 
 export const engineeringServices = [
   {
